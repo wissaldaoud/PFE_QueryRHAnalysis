@@ -1,0 +1,133 @@
+JEAN DUPONT
+Développeur Backend Python Senior
+Email: jean.dupont@example.com
+Téléphone: +33 6 12 34 56 78
+LinkedIn: linkedin.com/in/jeandupont
+Paris, France
+
+═══════════════════════════════════════════════════════════
+
+PROFIL
+
+Développeur Backend passionné avec 5 ans d'expérience en développement d'API REST, 
+Machine Learning et déploiement cloud. Expert en Python, FastAPI et architectures 
+scalables. Capacité démontrée à optimiser les performances et à livrer des 
+solutions robustes en environnement Agile.
+
+═══════════════════════════════════════════════════════════
+
+COMPÉTENCES TECHNIQUES
+
+Langages de programmation:
+• Python (expert), JavaScript, TypeScript, SQL
+
+Frameworks & Bibliothèques:
+• FastAPI, Django, Flask, React, Node.js
+• TensorFlow, PyTorch, scikit-learn, Pandas, NumPy
+
+Bases de données:
+• PostgreSQL, MongoDB, Redis, Elasticsearch
+
+Cloud & DevOps:
+• Docker, Kubernetes, AWS (EC2, S3, Lambda)
+• CI/CD (GitLab CI, GitHub Actions)
+• Terraform, Ansible
+
+Outils de développement:
+• Git, Jira, Confluence, VS Code
+• Postman, Swagger/OpenAPI
+
+Méthodologies:
+• Agile/Scrum, Test-Driven Development (TDD)
+• Microservices, REST API design
+
+═══════════════════════════════════════════════════════════
+
+EXPÉRIENCE PROFESSIONNELLE
+
+Développeur Backend Python Senior | TechCorp
+Mars 2021 - Présent (3 ans) | Paris, France
+
+• Développement et maintenance d'une plateforme API REST avec FastAPI 
+  servant 500k requêtes/jour avec latence < 100ms
+• Architecture de microservices gérant 2M d'utilisateurs actifs
+• Réduction du temps de réponse API de 40% via optimisations de requêtes SQL 
+  et mise en cache Redis
+• Mise en place de CI/CD avec GitLab CI : déploiements automatisés sur AWS ECS
+• Mentoring de 3 développeurs juniors sur les bonnes pratiques Python et architecture
+• Stack : Python, FastAPI, PostgreSQL, Redis, Docker, Kubernetes, AWS
+
+Développeur Full Stack | StartupAI
+Janvier 2019 - Février 2021 (2 ans) | Paris, France
+
+• Création d'une plateforme ML pour analyse de sentiment sur réseaux sociaux
+• Développement du backend (Python/Django) et frontend (React/TypeScript)
+• Implémentation de modèles NLP avec TensorFlow et déploiement en production
+• Gestion d'une base de données PostgreSQL avec 500k utilisateurs et 10M de posts
+• Migration de monolithe vers architecture microservices (réduction temps déploiement de 70%)
+• Stack : Python, Django, React, PostgreSQL, TensorFlow, Docker
+
+Stagiaire Développeur Backend | DataTech
+Juin 2018 - Décembre 2018 (6 mois) | Paris, France
+
+• Développement d'API REST pour système de recommandation produits
+• Implémentation d'algorithmes de collaborative filtering avec scikit-learn
+• Tests unitaires et d'intégration avec pytest (couverture > 85%)
+• Stack : Python, Flask, MySQL, scikit-learn
+
+═══════════════════════════════════════════════════════════
+
+FORMATION
+
+Master en Intelligence Artificielle
+Université Paris-Saclay | 2017-2019
+• Spécialisation : Machine Learning et traitement du langage naturel (NLP)
+• Projet de fin d'études : Système de question-réponse avec BERT
+• Mention : Très bien
+
+Licence en Informatique  
+Sorbonne Université | 2014-2017
+• Spécialisation : Génie logiciel et bases de données
+• Mention : Bien
+
+═══════════════════════════════════════════════════════════
+
+PROJETS PERSONNELS
+
+Plateforme RH Analytics avec ML (2024)
+• Système de matching CV/emploi utilisant Sentence Transformers
+• Architecture microservices FastAPI + Next.js
+• Capacité : 1000-5000 CVs/heure avec latence < 0.5s
+• Technologies : Python, FastAPI, Sentence Transformers, Next.js, Docker
+• GitHub : github.com/jeandupont/hr-analytics
+
+API de prévision météo temps réel (2023)
+• API REST consommant données OpenWeather avec prédictions ML
+• Modèle LSTM pour prévoir température à 7 jours
+• 10k utilisateurs actifs, 500k requêtes/mois
+• Technologies : Python, FastAPI, TensorFlow, PostgreSQL, Redis
+
+═══════════════════════════════════════════════════════════
+
+CERTIFICATIONS
+
+• AWS Certified Solutions Architect - Associate (2022)
+• Machine Learning Specialization - Coursera/Stanford (2021)
+• Professional Scrum Master I (PSM I) - Scrum.org (2020)
+
+═══════════════════════════════════════════════════════════
+
+LANGUES
+
+• Français : Natif
+• Anglais : Courant (TOEIC 950/990)
+• Arabe : Notions
+
+═══════════════════════════════════════════════════════════
+
+CENTRES D'INTÉRÊT
+
+• Contributions open-source sur GitHub (500+ stars cumulés)
+• Veille technologique : suivi des conférences PyCon, PyData
+• Blogging technique sur Medium (5k followers)
+• Running (marathon de Paris 2023 : 3h45)

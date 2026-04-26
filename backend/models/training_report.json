@@ -1,0 +1,24 @@
+{
+  "accuracy": 0.5833,
+  "cv_mean": 0.4091,
+  "cv_std": 0.0996,
+  "cv_scores": [
+    0.5,
+    0.2727,
+    0.3636,
+    0.5455,
+    0.3636
+  ],
+  "nb_questions": 56,
+  "nb_intents": 7,
+  "intents": [
+    "absence",
+    "count",
+    "list",
+    "paie",
+    "stats",
+    "trend",
+    "turnover"
+  ],
+  "model": "TF-IDF + LinearSVC"
+}

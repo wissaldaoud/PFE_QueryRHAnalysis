@@ -1,0 +1,33 @@
+# Requirements pour le module HR Analytics Avancé
+# Installer avec: pip install -r requirements-hr-analytics.txt
+
+# ==================== NLP & Machine Learning ====================
+sentence-transformers>=2.2.0  # Pour les embeddings sémantiques (CV matching, recommandation)
+torch>=2.0.0  # PyTorch (backend pour Sentence Transformers)
+transformers>=4.30.0  # HuggingFace Transformers
+scikit-learn>=1.3.0  # ML classique (preprocessing, scoring)
+numpy>=1.24.0  # Calculs numériques
+pandas>=2.0.0  # Manipulation de données
+
+# ==================== API & Web Framework ====================
+fastapi>=0.100.0  # Framework API
+pydantic>=2.0.0  # Validation de données
+uvicorn[standard]>=0.23.0  # Serveur ASGI
+
+# ==================== Utilities ====================
+python-multipart>=0.0.6  # Pour upload de fichiers (CVs)
+python-dotenv>=1.0.0  # Variables d'environnement
+
+# ==================== Optional: MLOps & Monitoring ====================
+mlflow>=2.5.0  # Suivi des modèles (optionnel)
+# prometheus-client>=0.17.0  # Métriques (optionnel)
+
+# ==================== Optional: PDF & Document Processing ====================
+# PyPDF2>=3.0.0  # Pour extraire du texte de PDFs
+# python-docx>=0.8.11  # Pour extraire du texte de .docx
+# pdfplumber>=0.9.0  # Alternative pour PDFs
+
+# ==================== Development & Testing ====================
+pytest>=7.4.0  # Tests unitaires
+pytest-asyncio>=0.21.0  # Tests async
+httpx>=0.24.0  # Client HTTP pour tests API

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Connexion Qlik Sense Desktop</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-card {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #E31837;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .test-item {
+            margin: 15px 0;
+            padding: 15px;
+            border-left: 4px solid #ddd;
+            background: #f9f9f9;
+            border-radius: 4px;
+        }
+        .test-item.success {
+            border-left-color: #22c55e;
+            background: #f0fdf4;
+        }
+        .test-item.error {
+            border-left-color: #ef4444;
+            background: #fef2f2;
+        }
+        .test-item.pending {
+            border-left-color: #f59e0b;
+            background: #fffbeb;
+        }
+        .status {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .status.success { color: #22c55e; }
+        .status.error { color: #ef4444; }
+        .status.pending { color: #f59e0b; }
+        button {
+            background: #E31837;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        button:hover {
+            background: #C41230;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .info-box {
+            background: #e0f2fe;
+            border: 1px solid #0284c7;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        code {
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-card">
+        <h1>🔍 Test de Connexion Qlik Sense Desktop</h1>
+        <p class="subtitle">Vérifiez que votre environnement Qlik est correctement configuré</p>
+
+        <div class="info-box">
+            <strong>📋 Prérequis :</strong>
+            <ul>
+                <li>Qlik Sense Desktop doit être démarré</li>
+                <li>L'application <code>QueryHrAnalysis.qvf</code> doit exister</li>
+                <li>CORS doit être configuré (voir QLIK_INTEGRATION.md)</li>
+            </ul>
+        </div>
+
+        <div id="tests"></div>
+
+        <button onclick="runTests()" id="testBtn">Lancer les tests</button>
+    </div>
+
+    <script>
+        const QLIK_HOST = 'localhost';
+        const QLIK_PORT = 4848;
+        const APP_NAME = 'QueryHrAnalysis.qvf';
+
+        const tests = [
+            {
+                name: 'Connexion au Hub Qlik',
+                description: 'Vérification de l\'accès au serveur Qlik Sense Desktop',
+                test: async () => {
+                    const response = await fetch(`http://${QLIK_HOST}:${QLIK_PORT}/hub`, { mode: 'no-cors' });
+                    return true; // Si pas d'erreur réseau, le serveur répond
+                }
+            },
+            {
+                name: 'Chargement de require.js',
+                description: 'Vérification que la bibliothèque Qlik est accessible',
+                test: async () => {
+                    return new Promise((resolve, reject) => {
+                        const script = document.createElement('script');
+                        script.src = `http://${QLIK_HOST}:${QLIK_PORT}/resources/assets/external/requirejs/require.js`;
+                        script.onload = () => resolve(true);
+                        script.onerror = () => reject(new Error('Impossible de charger require.js'));
+                        document.head.appendChild(script);
+                    });
+                }
+            },
+            {
+                name: 'Configuration CORS',
+                description: 'Test si CORS est correctement configuré',
+                test: async () => {
+                    try {
+                        const response = await fetch(`http://${QLIK_HOST}:${QLIK_PORT}/resources/`, {
+                            method: 'HEAD',
+                        });
+                        return response.ok;
+                    } catch (error) {
+                        throw new Error('CORS bloqué - Vérifiez Settings.ini');
+                    }
+                }
+            },
+            {
+                name: 'Connexion à l\'application',
+                description: `Ouverture de ${APP_NAME}`,
+                test: async () => {
+                    return new Promise((resolve, reject) => {
+                        if (!window.require) {
+                            reject(new Error('require.js non chargé'));
+                            return;
+                        }
+
+                        setTimeout(() => {
+                            window.require.config({
+                                baseUrl: `http://${QLIK_HOST}:${QLIK_PORT}/resources`,
+                                webIntegrationId: 'localhost',
+                            });
+
+                            window.require(['js/qlik'], (qlik) => {
+                                try {
+                                    const app = qlik.openApp(APP_NAME, {
+                                        host: QLIK_HOST,
+                                        port: QLIK_PORT,
+                                        prefix: '/',
+                                        isSecure: false,
+                                    });
+                                    
+                                    // Tester en récupérant la liste des sheets
+                                    app.getList('sheet', (reply) => {
+                                        if (reply && reply.qListObject) {
+                                            resolve(true);
+                                        } else {
+                                            reject(new Error('Application trouvée mais aucune feuille'));
+                                        }
+                                    });
+                                } catch (error) {
+                                    reject(error);
+                                }
+                            });
+                        }, 1000);
+                    });
+                }
+            }
+        ];
+
+        async function runTests() {
+            const testsContainer = document.getElementById('tests');
+            const testBtn = document.getElementById('testBtn');
+            testBtn.disabled = true;
+            testsContainer.innerHTML = '';
+
+            for (let i = 0; i < tests.length; i++) {
+                const test = tests[i];
+                const testDiv = document.createElement('div');
+                testDiv.className = 'test-item pending';
+                testDiv.innerHTML = `
+                    <div class="status pending">⏳ Test ${i + 1}/${tests.length} : ${test.name}</div>
+                    <div>${test.description}</div>
+                `;
+                testsContainer.appendChild(testDiv);
+
+                try {
+                    await test.test();
+                    testDiv.className = 'test-item success';
+                    testDiv.querySelector('.status').className = 'status success';
+                    testDiv.querySelector('.status').innerHTML = `✅ Test ${i + 1}/${tests.length} : ${test.name}`;
+                } catch (error) {
+                    testDiv.className = 'test-item error';
+                    testDiv.querySelector('.status').className = 'status error';
+                    testDiv.querySelector('.status').innerHTML = `❌ Test ${i + 1}/${tests.length} : ${test.name}`;
+                    testDiv.innerHTML += `<div style="color: #ef4444; margin-top: 10px; font-size: 14px;">Erreur: ${error.message}</div>`;
+                    
+                    // Afficher les solutions possibles
+                    if (error.message.includes('CORS')) {
+                        testDiv.innerHTML += `
+                            <div style="margin-top: 10px; padding: 10px; background: #fef3c7; border-radius: 4px; font-size: 14px;">
+                                <strong>💡 Solution :</strong> Configurez CORS dans Settings.ini<br>
+                                Voir le fichier <code>docs/QLIK_INTEGRATION.md</code> pour les instructions
+                            </div>
+                        `;
+                    } else if (error.message.includes('require.js')) {
+                        testDiv.innerHTML += `
+                            <div style="margin-top: 10px; padding: 10px; background: #fef3c7; border-radius: 4px; font-size: 14px;">
+                                <strong>💡 Solution :</strong> Qlik Sense Desktop n'est probablement pas démarré<br>
+                                Lancez Qlik Sense Desktop et réessayez
+                            </div>
+                        `;
+                    }
+                    break; // Arrêter si un test échoue
+                }
+
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+
+            testBtn.disabled = false;
+            testBtn.textContent = 'Relancer les tests';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+# Requirements supplémentaires pour le module ML de prédiction de turnover
+# À installer en plus de requirements.txt
+
+# XGBoost - Gradient Boosting ultra-performant
+xgboost>=2.0.0
+
+# SHAP - Explications des prédictions ML
+shap>=0.43.0
+
+# Scikit-learn - Déjà dans requirements.txt normalement, mais version minimale
+scikit-learn>=1.3.0
+
+# Note: pandas, numpy, sqlalchemy sont déjà dans requirements.txt

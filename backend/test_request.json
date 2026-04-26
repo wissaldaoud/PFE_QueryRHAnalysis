@@ -1,0 +1,51 @@
+{
+  "cv": {
+    "skills": [
+      "Python",
+      "FastAPI",
+      "Machine Learning",
+      "Docker",
+      "PostgreSQL",
+      "React",
+      "Git",
+      "CI/CD"
+    ],
+    "experiences": [
+      "Développeur Backend Python chez TechCorp (2021-2024) : Développement d'API REST avec FastAPI, déploiement Docker/Kubernetes, intégration CI/CD GitLab. Réduction du temps de réponse API de 40%.",
+      "Développeur Full Stack chez StartupAI (2019-2021) : Création d'une plateforme ML pour analyse de données. Stack : Python, React, PostgreSQL. Gestion d'une base de 500k utilisateurs."
+    ],
+    "job_titles": [
+      "Développeur Backend Python Senior",
+      "Développeur Full Stack"
+    ],
+    "education": [
+      "Master en Intelligence Artificielle - Université Paris-Saclay (2017-2019)",
+      "Licence en Informatique - Sorbonne Université (2014-2017)"
+    ],
+    "years_of_experience": 5.0,
+    "full_text": "Jean Dupont - Développeur Backend Python avec 5 ans d'expérience en développement d'API REST, Machine Learning et déploiement cloud. Passionné par l'IA et les architectures scalables."
+  },
+  "job_offer": {
+    "title": "Développeur Backend Python Senior",
+    "required_skills": [
+      "Python",
+      "FastAPI",
+      "PostgreSQL",
+      "Docker",
+      "Git"
+    ],
+    "preferred_skills": [
+      "Machine Learning",
+      "Kubernetes",
+      "CI/CD",
+      "AWS",
+      "Redis"
+    ],
+    "experience_required": 3,
+    "education_required": [
+      "Master",
+      "Ingénieur"
+    ],
+    "description": "Nous recherchons un développeur backend Python senior pour rejoindre notre équipe d'ingénierie. Vous serez responsable du développement et de la maintenance de nos API REST, de l'optimisation des performances et de l'architecture de nos microservices."
+  }
+}

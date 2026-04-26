@@ -1,0 +1,42 @@
+# Modèles entraînés
+*.pkl
+*.h5
+*.pt
+*.pth
+*.onnx
+*.joblib
+
+# MLflow
+mlruns/
+mlartifacts/
+
+# Dataset
+data/*.csv
+data/*.xlsx
+data/*.parquet
+
+# Cache Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Logs
+*.log
+
+# Environnement
+.env
+
+# Résultats d'entraînement
+results/
+plots/
+*.png
+*.jpg
+
+# Conserve les dossiers mais pas leur contenu
+!.gitkeep

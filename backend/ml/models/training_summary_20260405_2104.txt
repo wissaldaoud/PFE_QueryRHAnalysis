@@ -1,0 +1,21 @@
+======================================================================
+RÉSUMÉ ENTRAÎNEMENT MODÈLE TURNOVER
+======================================================================
+
+Date : 2026-04-05 21:04:58
+Source : C:\Users\wdaoud\Desktop\test\backend\ml\data\employes_qlik_historique.csv
+
+MÉTRIQUES :
+  Accuracy Train : 72.0%
+  Accuracy Test  : 60.6%
+  ROC AUC        : 62.0%
+  CV ROC AUC     : 53.4% ± 4.5%
+
+DONNÉES :
+  Total          : 5472
+  Train          : 4377
+  Test           : 1095
+  Partis         : 1044
+  Actifs         : 4428
+
+FEATURES (7) :

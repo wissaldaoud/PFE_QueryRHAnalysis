@@ -1,0 +1,21 @@
+# Dépendances core backend (sans ML lourds) - versions compatibles Python 3.14
+fastapi
+uvicorn[standard]
+pydantic
+pydantic-settings
+sqlalchemy
+alembic
+psycopg2-binary
+python-jose[cryptography]
+passlib[bcrypt]
+python-multipart
+python-dotenv
+httpx
+email-validator
+authlib
+pyotp
+qrcode
+bcrypt
+pandas
+openpyxl
+slowapi

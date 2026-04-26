@@ -1,0 +1,395 @@
+[
+  {
+    "question": "Combien d'employés actifs ?",
+    "sql": "SELECT COUNT(DISTINCT e.nudoss) as total FROM dim.dim_employe e WHERE e.flag_employe_actif = 1;"
+  },
+  {
+    "question": "Nombre total d'employés",
+    "sql": "SELECT COUNT(DISTINCT nudoss) as total FROM dim.dim_employe WHERE flag_employe_actif = 1;"
+  },
+  {"question": "Taux d absentéisme par département",
+ "sql": "SELECT af.libelle_poste, COUNT(DISTINCT a.nudoss) as nb_absents, COUNT(DISTINCT e.nudoss) as nb_employes, ROUND(CAST(COUNT(DISTINCT a.nudoss)*100.0/NULLIF(COUNT(DISTINCT e.nudoss),0) AS NUMERIC), 2) as taux FROM dim.dim_employe e LEFT JOIN fait.fait_affectation af ON e.nudoss=af.nudoss AND af.flag_affectation_active=1 LEFT JOIN fait.fait_absence a ON e.nudoss=a.nudoss WHERE e.flag_employe_actif=1 AND af.libelle_poste IS NOT NULL GROUP BY af.libelle_poste ORDER BY taux DESC LIMIT 20;"},
+
+{"question": "absentéisme département",
+ "sql": "SELECT af.libelle_poste, COUNT(DISTINCT a.nudoss) as nb_absents, COUNT(DISTINCT e.nudoss) as nb_employes, ROUND(CAST(COUNT(DISTINCT a.nudoss)*100.0/NULLIF(COUNT(DISTINCT e.nudoss),0) AS NUMERIC), 2) as taux FROM dim.dim_employe e LEFT JOIN fait.fait_affectation af ON e.nudoss=af.nudoss AND af.flag_affectation_active=1 LEFT JOIN fait.fait_absence a ON e.nudoss=a.nudoss WHERE e.flag_employe_actif=1 AND af.libelle_poste IS NOT NULL GROUP BY af.libelle_poste ORDER BY taux DESC LIMIT 20;"},
+  {
+    "question": "Effectif total de l'entreprise",
+    "sql": "SELECT COUNT(DISTINCT nudoss) as total FROM dim.dim_employe WHERE flag_employe_actif = 1;"
+  },
+  {
+    "question": "Combien de salariés travaillent ici ?",
+    "sql": "SELECT COUNT(DISTINCT nudoss) as total FROM dim.dim_employe WHERE flag_employe_actif = 1;"
+  },
+  {
+    "question": "Liste de tous les employés actifs",
+    "sql": "SELECT e.nom, e.prenom, e.libelle_sexe, af.libelle_poste FROM dim.dim_employe e LEFT JOIN fait.fait_affectation af ON e.nudoss = af.nudoss AND af.flag_affectation_active = 1 WHERE e.flag_employe_actif = 1 ORDER BY e.nom LIMIT 100;"
+  },
+  {
+    "question": "Affiche tous les employés",
+    "sql": "SELECT e.nom, e.prenom, e.libelle_sexe, af.libelle_poste FROM dim.dim_employe e LEFT JOIN fait.fait_affectation af ON e.nudoss = af.nudoss AND af.flag_affectation_active = 1 WHERE e.flag_employe_actif = 1 ORDER BY e.nom LIMIT 100;"
+  },
+  {
+    "question": "Salaire moyen des employés",
+    "sql": "SELECT ROUND(CAST(AVG(c.salaire_mensuel) AS NUMERIC), 2) as salaire_moyen FROM fait.fait_contrat c JOIN dim.dim_employe e ON c.nudoss = e.nudoss WHERE e.flag_employe_actif = 1 AND c.salaire_mensuel IS NOT NULL;"
+  },
+  {
+    "question": "Quel est le salaire moyen ?",
+    "sql": "SELECT ROUND(CAST(AVG(c.salaire_mensuel) AS NUMERIC), 2) as salaire_moyen FROM fait.fait_contrat c JOIN dim.dim_employe e ON c.nudoss = e.nudoss WHERE e.flag_employe_actif = 1 AND c.salaire_mensuel IS NOT NULL;"
+  },
+  {
+    "question": "Average salary of employees",
+    "sql": "SELECT ROUND(CAST(AVG(c.salaire_mensuel) AS NUMERIC), 2) as salaire_moyen FROM fait.fait_contrat c JOIN dim.dim_employe e ON c.nudoss = e.nudoss WHERE e.flag_employe_actif = 1 AND c.salaire_mensuel IS NOT NULL;"
+  },
+  {
+    "question": "Qui gagne le plus ?",
+    "sql": "SELECT e.nom, e.prenom, af.libelle_poste, c.salaire_mensuel FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss LEFT JOIN fait.fait_affectation af ON e.nudoss = af.nudoss AND af.flag_affectation_active = 1 WHERE e.flag_employe_actif = 1 AND c.salaire_mensuel IS NOT NULL ORDER BY c.salaire_mensuel DESC LIMIT 1;"
+  },
+  {
+    "question": "Top 10 des salaires les plus élevés",
+    "sql": "SELECT e.nom, e.prenom, af.libelle_poste, c.salaire_mensuel FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss LEFT JOIN fait.fait_affectation af ON e.nudoss = af.nudoss AND af.flag_affectation_active = 1 WHERE e.flag_employe_actif = 1 AND c.salaire_mensuel IS NOT NULL ORDER BY c.salaire_mensuel DESC LIMIT 10;"
+  },
+  {
+    "question": "Les 5 employés les mieux payés",
+    "sql": "SELECT e.nom, e.prenom, af.libelle_poste, c.salaire_mensuel FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss LEFT JOIN fait.fait_affectation af ON e.nudoss = af.nudoss AND af.flag_affectation_active = 1 WHERE e.flag_employe_actif = 1 AND c.salaire_mensuel IS NOT NULL ORDER BY c.salaire_mensuel DESC LIMIT 5;"
+  },
+  {
+    "question": "Salaire maximum",
+    "sql": "SELECT e.nom, e.prenom, af.libelle_poste, c.salaire_mensuel FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss LEFT JOIN fait.fait_affectation af ON e.nudoss = af.nudoss AND af.flag_affectation_active = 1 WHERE e.flag_employe_actif = 1 AND c.salaire_mensuel IS NOT NULL ORDER BY c.salaire_mensuel DESC LIMIT 10;"
+  },
+  {
+    "question": "Qui gagne le moins ?",
+    "sql": "SELECT e.nom, e.prenom, af.libelle_poste, c.salaire_mensuel FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss LEFT JOIN fait.fait_affectation af ON e.nudoss = af.nudoss AND af.flag_affectation_active = 1 WHERE e.flag_employe_actif = 1 AND c.salaire_mensuel IS NOT NULL ORDER BY c.salaire_mensuel ASC LIMIT 1;"
+  },
+  {
+    "question": "Salaire minimum",
+    "sql": "SELECT e.nom, e.prenom, af.libelle_poste, c.salaire_mensuel FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss LEFT JOIN fait.fait_affectation af ON e.nudoss = af.nudoss AND af.flag_affectation_active = 1 WHERE e.flag_employe_actif = 1 AND c.salaire_mensuel IS NOT NULL ORDER BY c.salaire_mensuel ASC LIMIT 10;"
+  },
+  {
+    "question": "Liste des salaires de tous les employés",
+    "sql": "SELECT e.nom, e.prenom, af.libelle_poste, c.salaire_mensuel FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss LEFT JOIN fait.fait_affectation af ON e.nudoss = af.nudoss AND af.flag_affectation_active = 1 WHERE e.flag_employe_actif = 1 AND c.salaire_mensuel IS NOT NULL ORDER BY c.salaire_mensuel DESC LIMIT 100;"
+  },
+  {
+    "question": "5 postes les mieux rémunérés",
+    "sql": "SELECT af.libelle_poste, ROUND(CAST(AVG(c.salaire_mensuel) AS NUMERIC), 2) as salaire_moyen, COUNT(DISTINCT e.nudoss) as nb_employes FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss LEFT JOIN fait.fait_affectation af ON e.nudoss = af.nudoss AND af.flag_affectation_active = 1 WHERE e.flag_employe_actif = 1 AND c.salaire_mensuel IS NOT NULL AND af.libelle_poste IS NOT NULL GROUP BY af.libelle_poste ORDER BY salaire_moyen DESC LIMIT 5;"
+  },
+  {
+    "question": "Quel poste a le salaire moyen le plus élevé ?",
+    "sql": "SELECT af.libelle_poste, ROUND(CAST(AVG(c.salaire_mensuel) AS NUMERIC), 2) as salaire_moyen FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss LEFT JOIN fait.fait_affectation af ON e.nudoss = af.nudoss AND af.flag_affectation_active = 1 WHERE e.flag_employe_actif = 1 AND c.salaire_mensuel IS NOT NULL AND af.libelle_poste IS NOT NULL GROUP BY af.libelle_poste ORDER BY salaire_moyen DESC LIMIT 1;"
+  },
+  {
+    "question": "Salaire moyen par poste",
+    "sql": "SELECT af.libelle_poste, ROUND(CAST(AVG(c.salaire_mensuel) AS NUMERIC), 2) as salaire_moyen, COUNT(DISTINCT e.nudoss) as nb_employes FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss LEFT JOIN fait.fait_affectation af ON e.nudoss = af.nudoss AND af.flag_affectation_active = 1 WHERE e.flag_employe_actif = 1 AND c.salaire_mensuel IS NOT NULL GROUP BY af.libelle_poste ORDER BY salaire_moyen DESC;"
+  },
+  {
+    "question": "Compare les salaires entre hommes et femmes",
+    "sql": "SELECT e.libelle_sexe, ROUND(CAST(AVG(c.salaire_mensuel) AS NUMERIC), 2) as salaire_moyen, COUNT(DISTINCT e.nudoss) as nb_employes FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss WHERE e.flag_employe_actif = 1 AND c.salaire_mensuel IS NOT NULL GROUP BY e.libelle_sexe;"
+  },
+  {
+    "question": "Différence de salaire homme femme",
+    "sql": "SELECT e.libelle_sexe, ROUND(CAST(AVG(c.salaire_mensuel) AS NUMERIC), 2) as salaire_moyen, COUNT(DISTINCT e.nudoss) as nb_employes FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss WHERE e.flag_employe_actif = 1 AND c.salaire_mensuel IS NOT NULL GROUP BY e.libelle_sexe;"
+  },
+  {
+    "question": "Répartition hommes femmes",
+    "sql": "SELECT e.libelle_sexe, COUNT(DISTINCT e.nudoss) as total FROM dim.dim_employe e WHERE e.flag_employe_actif = 1 GROUP BY e.libelle_sexe;"
+  },
+  {
+    "question": "Combien d'hommes et de femmes ?",
+    "sql": "SELECT e.libelle_sexe, COUNT(DISTINCT e.nudoss) as total FROM dim.dim_employe e WHERE e.flag_employe_actif = 1 GROUP BY e.libelle_sexe;"
+  },
+  {
+    "question": "Répartition par genre",
+    "sql": "SELECT e.libelle_sexe, COUNT(DISTINCT e.nudoss) as total FROM dim.dim_employe e WHERE e.flag_employe_actif = 1 GROUP BY e.libelle_sexe;"
+  },
+  {
+    "question": "Employés par département",
+    "sql": "SELECT af.libelle_poste, COUNT(DISTINCT e.nudoss) as nombre FROM dim.dim_employe e LEFT JOIN fait.fait_affectation af ON e.nudoss = af.nudoss AND af.flag_affectation_active = 1 WHERE e.flag_employe_actif = 1 GROUP BY af.libelle_poste ORDER BY nombre DESC;"
+  },
+  {
+    "question": "Nombre d'employés par poste",
+    "sql": "SELECT af.libelle_poste, COUNT(DISTINCT e.nudoss) as nombre FROM dim.dim_employe e LEFT JOIN fait.fait_affectation af ON e.nudoss = af.nudoss AND af.flag_affectation_active = 1 WHERE e.flag_employe_actif = 1 GROUP BY af.libelle_poste ORDER BY nombre DESC;"
+  },
+  {
+    "question": "Quel département a le plus d'employés ?",
+    "sql": "SELECT af.libelle_poste, COUNT(DISTINCT e.nudoss) as nombre FROM dim.dim_employe e LEFT JOIN fait.fait_affectation af ON e.nudoss = af.nudoss AND af.flag_affectation_active = 1 WHERE e.flag_employe_actif = 1 GROUP BY af.libelle_poste ORDER BY nombre DESC LIMIT 1;"
+  },
+  {
+    "question": "Distribution des employés par service",
+    "sql": "SELECT af.libelle_poste, COUNT(DISTINCT e.nudoss) as nombre FROM dim.dim_employe e LEFT JOIN fait.fait_affectation af ON e.nudoss = af.nudoss AND af.flag_affectation_active = 1 WHERE e.flag_employe_actif = 1 GROUP BY af.libelle_poste ORDER BY nombre DESC;"
+  },
+  {
+    "question": "Qui est absent aujourd'hui ?",
+    "sql": "SELECT e.nom, e.prenom, a.libelle_motif_absence, a.date_debut_absence FROM fait.fait_absence a LEFT JOIN dim.dim_employe e ON a.nudoss = e.nudoss WHERE DATE(a.date_debut_absence) <= CURRENT_DATE AND DATE(a.date_debut_absence) + INTERVAL '1 day' * a.duree_absence_jours >= CURRENT_DATE LIMIT 50;"
+  },
+  {
+    "question": "Absents aujourd'hui",
+    "sql": "SELECT e.nom, e.prenom, a.libelle_motif_absence, a.date_debut_absence FROM fait.fait_absence a LEFT JOIN dim.dim_employe e ON a.nudoss = e.nudoss WHERE DATE(a.date_debut_absence) <= CURRENT_DATE AND DATE(a.date_debut_absence) + INTERVAL '1 day' * a.duree_absence_jours >= CURRENT_DATE LIMIT 50;"
+  },
+  {
+    "question": "Liste des absences du jour",
+    "sql": "SELECT e.nom, e.prenom, a.libelle_motif_absence, a.date_debut_absence FROM fait.fait_absence a LEFT JOIN dim.dim_employe e ON a.nudoss = e.nudoss WHERE DATE(a.date_debut_absence) <= CURRENT_DATE AND DATE(a.date_debut_absence) + INTERVAL '1 day' * a.duree_absence_jours >= CURRENT_DATE LIMIT 50;"
+  },
+  {
+    "question": "Taux d'absentéisme par département",
+    "sql": "SELECT af.libelle_poste, COUNT(DISTINCT a.nudoss) as nb_absents, COUNT(DISTINCT e.nudoss) as nb_employes, ROUND(CAST(COUNT(DISTINCT a.nudoss)*100.0/NULLIF(COUNT(DISTINCT e.nudoss),0) AS NUMERIC), 2) as taux FROM dim.dim_employe e LEFT JOIN fait.fait_affectation af ON e.nudoss = af.nudoss AND af.flag_affectation_active = 1 LEFT JOIN fait.fait_absence a ON e.nudoss = a.nudoss WHERE e.flag_employe_actif = 1 GROUP BY af.libelle_poste ORDER BY taux DESC LIMIT 20;"
+  },
+  {
+    "question": "Quel département a le plus d'absences ?",
+    "sql": "SELECT af.libelle_poste, COUNT(DISTINCT a.nudoss) as nb_absents FROM dim.dim_employe e LEFT JOIN fait.fait_affectation af ON e.nudoss = af.nudoss AND af.flag_affectation_active = 1 LEFT JOIN fait.fait_absence a ON e.nudoss = a.nudoss WHERE e.flag_employe_actif = 1 GROUP BY af.libelle_poste ORDER BY nb_absents DESC LIMIT 1;"
+  },
+  {
+    "question": "Taux d'absentéisme global",
+    "sql": "SELECT COUNT(DISTINCT a.nudoss) as nb_absents, COUNT(DISTINCT e.nudoss) as nb_employes, ROUND(CAST(COUNT(DISTINCT a.nudoss)*100.0/NULLIF(COUNT(DISTINCT e.nudoss),0) AS NUMERIC), 2) as taux_absenteisme FROM dim.dim_employe e LEFT JOIN fait.fait_absence a ON e.nudoss = a.nudoss WHERE e.flag_employe_actif = 1;"
+  },
+  {
+    "question": "Motifs d'absence les plus fréquents",
+    "sql": "SELECT a.libelle_motif_absence, COUNT(*) as nombre FROM fait.fait_absence a GROUP BY a.libelle_motif_absence ORDER BY nombre DESC LIMIT 10;"
+  },
+  {
+    "question": "Nombre total d'absences",
+    "sql": "SELECT COUNT(*) as total_absences FROM fait.fait_absence;"
+  },
+  {
+    "question": "Taux de turnover",
+    "sql": "SELECT SUM(CASE WHEN flag_employe_actif=1 THEN 1 ELSE 0 END) as actifs, SUM(CASE WHEN flag_employe_actif=0 THEN 1 ELSE 0 END) as inactifs, COUNT(*) as total FROM dim.dim_employe;"
+  },
+  {
+    "question": "Combien d'employés ont quitté l'entreprise ?",
+    "sql": "SELECT COUNT(DISTINCT nudoss) as total_inactifs FROM dim.dim_employe WHERE flag_employe_actif = 0;"
+  },
+  {
+    "question": "Rotation du personnel",
+    "sql": "SELECT SUM(CASE WHEN flag_employe_actif=1 THEN 1 ELSE 0 END) as actifs, SUM(CASE WHEN flag_employe_actif=0 THEN 1 ELSE 0 END) as inactifs, COUNT(*) as total FROM dim.dim_employe;"
+  },
+  {
+    "question": "Employés en CDI",
+    "sql": "SELECT e.nom, e.prenom, c.libelle_type_contrat, c.date_debut_contrat FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss WHERE e.flag_employe_actif = 1 AND UPPER(c.libelle_type_contrat) LIKE '%CDI%' ORDER BY e.nom LIMIT 100;"
+  },
+  {
+    "question": "Combien d'employés en CDI ?",
+    "sql": "SELECT COUNT(DISTINCT e.nudoss) as total FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss WHERE e.flag_employe_actif = 1 AND UPPER(c.libelle_type_contrat) LIKE '%CDI%';"
+  },
+  {
+    "question": "Employés en CDD",
+    "sql": "SELECT e.nom, e.prenom, c.libelle_type_contrat, c.date_debut_contrat FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss WHERE e.flag_employe_actif = 1 AND UPPER(c.libelle_type_contrat) LIKE '%CDD%' ORDER BY e.nom LIMIT 100;"
+  },
+  {
+    "question": "Combien d'employés en CDD ?",
+    "sql": "SELECT COUNT(DISTINCT e.nudoss) as total FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss WHERE e.flag_employe_actif = 1 AND UPPER(c.libelle_type_contrat) LIKE '%CDD%';"
+  },
+  {
+    "question": "Répartition des types de contrats",
+    "sql": "SELECT c.libelle_type_contrat, COUNT(DISTINCT e.nudoss) as total FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss WHERE e.flag_employe_actif = 1 GROUP BY c.libelle_type_contrat ORDER BY total DESC;"
+  },
+  {
+    "question": "Répartition CDI CDD",
+    "sql": "SELECT c.libelle_type_contrat, COUNT(DISTINCT e.nudoss) as total FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss WHERE e.flag_employe_actif = 1 GROUP BY c.libelle_type_contrat ORDER BY total DESC;"
+  },
+  {
+    "question": "Top 10 des employés les plus anciens",
+    "sql": "SELECT e.nom, e.prenom, MIN(c.date_debut_contrat) as premiere_embauche, EXTRACT(YEAR FROM AGE(CURRENT_DATE, MIN(c.date_debut_contrat)))::integer as anciennete FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss WHERE e.flag_employe_actif = 1 AND c.date_debut_contrat IS NOT NULL GROUP BY e.nom, e.prenom, e.nudoss ORDER BY anciennete DESC LIMIT 10;"
+  },
+  {
+    "question": "Employés avec plus de 10 ans d'ancienneté",
+    "sql": "SELECT e.nom, e.prenom, MIN(c.date_debut_contrat) as premiere_embauche, EXTRACT(YEAR FROM AGE(CURRENT_DATE, MIN(c.date_debut_contrat)))::integer as anciennete FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss WHERE e.flag_employe_actif = 1 AND c.date_debut_contrat IS NOT NULL GROUP BY e.nom, e.prenom, e.nudoss HAVING EXTRACT(YEAR FROM AGE(CURRENT_DATE, MIN(c.date_debut_contrat))) >= 10 ORDER BY anciennete DESC;"
+  },
+  {
+    "question": "Ancienneté moyenne des employés",
+    "sql": "SELECT ROUND(CAST(AVG(EXTRACT(YEAR FROM AGE(CURRENT_DATE, c.date_debut_contrat))) AS NUMERIC), 1) as anciennete_moyenne FROM fait.fait_contrat c JOIN dim.dim_employe e ON c.nudoss = e.nudoss WHERE e.flag_employe_actif = 1 AND c.date_debut_contrat IS NOT NULL;"
+  },
+  {
+    "question": "Évolution des embauches par année",
+    "sql": "SELECT EXTRACT(YEAR FROM c.date_debut_contrat)::integer as annee, COUNT(DISTINCT e.nudoss) as total FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss WHERE c.date_debut_contrat IS NOT NULL AND EXTRACT(YEAR FROM c.date_debut_contrat) >= 1960 AND EXTRACT(YEAR FROM c.date_debut_contrat) <= EXTRACT(YEAR FROM CURRENT_DATE) GROUP BY annee ORDER BY annee;"
+  },
+  {
+    "question": "Combien d'embauches par an ?",
+    "sql": "SELECT EXTRACT(YEAR FROM c.date_debut_contrat)::integer as annee, COUNT(DISTINCT e.nudoss) as total FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss WHERE c.date_debut_contrat IS NOT NULL GROUP BY annee ORDER BY annee;"
+  },
+  {
+    "question": "Embauches en 2023",
+    "sql": "SELECT COUNT(DISTINCT e.nudoss) as total FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss WHERE EXTRACT(YEAR FROM c.date_debut_contrat) = 2023;"
+  },
+  {
+    "question": "Employés recrutés entre 2020 et 2023",
+    "sql": "SELECT e.nom, e.prenom, c.date_debut_contrat, c.libelle_type_contrat FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss WHERE EXTRACT(YEAR FROM c.date_debut_contrat) BETWEEN 2020 AND 2023 ORDER BY c.date_debut_contrat DESC LIMIT 100;"
+  },
+  {
+    "question": "Nouveaux employés cette année",
+    "sql": "SELECT e.nom, e.prenom, c.date_debut_contrat FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss WHERE EXTRACT(YEAR FROM c.date_debut_contrat) = EXTRACT(YEAR FROM CURRENT_DATE) ORDER BY c.date_debut_contrat DESC;"
+  },
+  {
+    "question": "Embauches par trimestre",
+    "sql": "SELECT cal.trimestre, EXTRACT(YEAR FROM c.date_debut_contrat)::integer as annee, COUNT(DISTINCT e.nudoss) as total FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss LEFT JOIN dim.dim_calendrier cal ON DATE(c.date_debut_contrat) = cal.date WHERE c.date_debut_contrat IS NOT NULL GROUP BY cal.trimestre, annee ORDER BY annee, cal.trimestre;"
+  },
+  {
+    "question": "Embauches par mois",
+    "sql": "SELECT cal.mois, cal.annee, COUNT(DISTINCT e.nudoss) as total FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss LEFT JOIN dim.dim_calendrier cal ON DATE(c.date_debut_contrat) = cal.date WHERE c.date_debut_contrat IS NOT NULL GROUP BY cal.mois, cal.annee ORDER BY cal.annee, cal.mois;"
+  },
+  {
+    "question": "Age moyen des employés",
+    "sql": "SELECT ROUND(CAST(AVG(EXTRACT(YEAR FROM AGE(CURRENT_DATE, e.date_naissance))) AS NUMERIC), 1) as age_moyen FROM dim.dim_employe e WHERE e.flag_employe_actif = 1 AND e.date_naissance IS NOT NULL;"
+  },
+  {
+    "question": "Répartition par tranche d'âge",
+    "sql": "SELECT e.tranche_age, COUNT(DISTINCT e.nudoss) as total FROM dim.dim_employe e WHERE e.flag_employe_actif = 1 GROUP BY e.tranche_age ORDER BY total DESC;"
+  },
+  {
+    "question": "Employés de moins de 30 ans",
+    "sql": "SELECT e.nom, e.prenom, EXTRACT(YEAR FROM AGE(CURRENT_DATE, e.date_naissance))::integer as age FROM dim.dim_employe e WHERE e.flag_employe_actif = 1 AND EXTRACT(YEAR FROM AGE(CURRENT_DATE, e.date_naissance)) < 30 ORDER BY age ASC LIMIT 100;"
+  },
+  {
+    "question": "Employés de plus de 50 ans",
+    "sql": "SELECT e.nom, e.prenom, EXTRACT(YEAR FROM AGE(CURRENT_DATE, e.date_naissance))::integer as age FROM dim.dim_employe e WHERE e.flag_employe_actif = 1 AND EXTRACT(YEAR FROM AGE(CURRENT_DATE, e.date_naissance)) > 50 ORDER BY age DESC LIMIT 100;"
+  },
+  {
+    "question": "Quel est l'employé le plus jeune ?",
+    "sql": "SELECT e.nom, e.prenom, EXTRACT(YEAR FROM AGE(CURRENT_DATE, e.date_naissance))::integer as age FROM dim.dim_employe e WHERE e.flag_employe_actif = 1 AND e.date_naissance IS NOT NULL ORDER BY e.date_naissance DESC LIMIT 1;"
+  },
+  {
+    "question": "Quel est l'employé le plus âgé ?",
+    "sql": "SELECT e.nom, e.prenom, EXTRACT(YEAR FROM AGE(CURRENT_DATE, e.date_naissance))::integer as age FROM dim.dim_employe e WHERE e.flag_employe_actif = 1 AND e.date_naissance IS NOT NULL ORDER BY e.date_naissance ASC LIMIT 1;"
+  },
+  {
+    "question": "Absences par mois",
+    "sql": "SELECT a.mois_absence, a.annee_absence, COUNT(*) as nombre FROM fait.fait_absence a GROUP BY a.annee_absence, a.mois_absence ORDER BY a.annee_absence, a.mois_absence;"
+  },
+  {
+    "question": "Absences en 2024",
+    "sql": "SELECT COUNT(*) as total FROM fait.fait_absence a WHERE a.annee_absence = 2024;"
+  },
+  {
+    "question": "Employé avec le plus d'absences",
+    "sql": "SELECT e.nom, e.prenom, COUNT(*) as nb_absences FROM fait.fait_absence a LEFT JOIN dim.dim_employe e ON a.nudoss = e.nudoss GROUP BY e.nom, e.prenom, e.nudoss ORDER BY nb_absences DESC LIMIT 10;"
+  },
+  {
+    "question": "Durée moyenne des absences",
+    "sql": "SELECT ROUND(CAST(AVG(a.duree_absence_jours) AS NUMERIC), 1) as duree_moyenne FROM fait.fait_absence a;"
+  },
+  {
+    "question": "Total jours d'absence",
+    "sql": "SELECT SUM(a.duree_absence_jours) as total_jours FROM fait.fait_absence a;"
+  },
+  {
+    "question": "Absences par motif",
+    "sql": "SELECT a.libelle_motif_absence, COUNT(*) as nombre, SUM(a.duree_absence_jours) as total_jours FROM fait.fait_absence a GROUP BY a.libelle_motif_absence ORDER BY nombre DESC;"
+  },
+  {
+    "question": "Stagiaires",
+    "sql": "SELECT e.nom, e.prenom, c.libelle_type_contrat, c.date_debut_contrat, c.date_fin_contrat FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss WHERE UPPER(c.libelle_type_contrat) LIKE '%STAGE%' ORDER BY c.date_debut_contrat DESC LIMIT 100;"
+  },
+  {
+    "question": "Combien de stagiaires ?",
+    "sql": "SELECT COUNT(DISTINCT e.nudoss) as total FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss WHERE UPPER(c.libelle_type_contrat) LIKE '%STAGE%';"
+  },
+  {
+    "question": "Employés en intérim",
+    "sql": "SELECT e.nom, e.prenom, c.libelle_type_contrat, c.date_debut_contrat FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss WHERE UPPER(c.libelle_type_contrat) LIKE '%INTERIM%' ORDER BY e.nom LIMIT 100;"
+  },
+  {
+    "question": "Contrats qui expirent ce mois",
+    "sql": "SELECT e.nom, e.prenom, c.libelle_type_contrat, c.date_fin_contrat FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss WHERE EXTRACT(MONTH FROM c.date_fin_contrat) = EXTRACT(MONTH FROM CURRENT_DATE) AND EXTRACT(YEAR FROM c.date_fin_contrat) = EXTRACT(YEAR FROM CURRENT_DATE) ORDER BY c.date_fin_contrat;"
+  },
+  {
+    "question": "Employés dont le contrat se termine bientôt",
+    "sql": "SELECT e.nom, e.prenom, c.libelle_type_contrat, c.date_fin_contrat FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss WHERE c.date_fin_contrat BETWEEN CURRENT_DATE AND CURRENT_DATE + INTERVAL '30 days' ORDER BY c.date_fin_contrat;"
+  },
+  {
+    "question": "Masse salariale totale",
+    "sql": "SELECT ROUND(CAST(SUM(c.salaire_mensuel) AS NUMERIC), 2) as masse_salariale FROM fait.fait_contrat c JOIN dim.dim_employe e ON c.nudoss = e.nudoss WHERE e.flag_employe_actif = 1 AND c.salaire_mensuel IS NOT NULL;"
+  },
+  {
+    "question": "Masse salariale par département",
+    "sql": "SELECT af.libelle_poste, ROUND(CAST(SUM(c.salaire_mensuel) AS NUMERIC), 2) as masse_salariale FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss LEFT JOIN fait.fait_affectation af ON e.nudoss = af.nudoss AND af.flag_affectation_active = 1 WHERE e.flag_employe_actif = 1 AND c.salaire_mensuel IS NOT NULL GROUP BY af.libelle_poste ORDER BY masse_salariale DESC;"
+  },
+  {
+    "question": "Employés avec salaire supérieur à 3000",
+    "sql": "SELECT e.nom, e.prenom, af.libelle_poste, c.salaire_mensuel FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss LEFT JOIN fait.fait_affectation af ON e.nudoss = af.nudoss AND af.flag_affectation_active = 1 WHERE e.flag_employe_actif = 1 AND c.salaire_mensuel > 3000 ORDER BY c.salaire_mensuel DESC LIMIT 100;"
+  },
+  {
+    "question": "Employés avec salaire inférieur à 1000",
+    "sql": "SELECT e.nom, e.prenom, af.libelle_poste, c.salaire_mensuel FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss LEFT JOIN fait.fait_affectation af ON e.nudoss = af.nudoss AND af.flag_affectation_active = 1 WHERE e.flag_employe_actif = 1 AND c.salaire_mensuel < 1000 ORDER BY c.salaire_mensuel ASC LIMIT 100;"
+  },
+  {
+    "question": "Employés sans affectation",
+    "sql": "SELECT e.nom, e.prenom FROM dim.dim_employe e LEFT JOIN fait.fait_affectation af ON e.nudoss = af.nudoss AND af.flag_affectation_active = 1 WHERE e.flag_employe_actif = 1 AND af.nudoss IS NULL ORDER BY e.nom;"
+  },
+  {
+    "question": "Postes disponibles",
+    "sql": "SELECT DISTINCT af.libelle_poste FROM fait.fait_affectation af WHERE af.flag_affectation_active = 1 ORDER BY af.libelle_poste;"
+  },
+  {
+    "question": "Combien de postes différents ?",
+    "sql": "SELECT COUNT(DISTINCT af.libelle_poste) as total_postes FROM fait.fait_affectation af WHERE af.flag_affectation_active = 1;"
+  },
+  {
+    "question": "Absences cette semaine",
+    "sql": "SELECT e.nom, e.prenom, a.libelle_motif_absence, a.date_debut_absence FROM fait.fait_absence a LEFT JOIN dim.dim_employe e ON a.nudoss = e.nudoss LEFT JOIN dim.dim_calendrier cal ON DATE(a.date_debut_absence) = cal.date WHERE cal.semaine = EXTRACT(WEEK FROM CURRENT_DATE) AND cal.annee = EXTRACT(YEAR FROM CURRENT_DATE) LIMIT 50;"
+  },
+  {
+    "question": "Absences ce mois",
+    "sql": "SELECT e.nom, e.prenom, a.libelle_motif_absence, a.date_debut_absence FROM fait.fait_absence a LEFT JOIN dim.dim_employe e ON a.nudoss = e.nudoss WHERE a.mois_absence = EXTRACT(MONTH FROM CURRENT_DATE) AND a.annee_absence = EXTRACT(YEAR FROM CURRENT_DATE) ORDER BY a.date_debut_absence LIMIT 100;"
+  },
+  {
+    "question": "Employés absents ce mois",
+    "sql": "SELECT COUNT(DISTINCT a.nudoss) as nb_absents FROM fait.fait_absence a WHERE a.mois_absence = EXTRACT(MONTH FROM CURRENT_DATE) AND a.annee_absence = EXTRACT(YEAR FROM CURRENT_DATE);"
+  },
+  {
+    "question": "Pyramide des âges",
+    "sql": "SELECT e.tranche_age, e.libelle_sexe, COUNT(DISTINCT e.nudoss) as total FROM dim.dim_employe e WHERE e.flag_employe_actif = 1 GROUP BY e.tranche_age, e.libelle_sexe ORDER BY e.tranche_age;"
+  },
+  {
+    "question": "Employés nés en 1990",
+    "sql": "SELECT e.nom, e.prenom, e.date_naissance FROM dim.dim_employe e WHERE EXTRACT(YEAR FROM e.date_naissance) = 1990 AND e.flag_employe_actif = 1 ORDER BY e.nom;"
+  },
+  {
+    "question": "Ancienneté par département",
+    "sql": "SELECT af.libelle_poste, ROUND(CAST(AVG(EXTRACT(YEAR FROM AGE(CURRENT_DATE, c.date_debut_contrat))) AS NUMERIC), 1) as anciennete_moyenne FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss LEFT JOIN fait.fait_affectation af ON e.nudoss = af.nudoss AND af.flag_affectation_active = 1 WHERE e.flag_employe_actif = 1 AND c.date_debut_contrat IS NOT NULL GROUP BY af.libelle_poste ORDER BY anciennete_moyenne DESC;"
+  },
+  {
+    "question": "Quel département a la plus grande ancienneté ?",
+    "sql": "SELECT af.libelle_poste, ROUND(CAST(AVG(EXTRACT(YEAR FROM AGE(CURRENT_DATE, c.date_debut_contrat))) AS NUMERIC), 1) as anciennete_moyenne FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss LEFT JOIN fait.fait_affectation af ON e.nudoss = af.nudoss AND af.flag_affectation_active = 1 WHERE e.flag_employe_actif = 1 AND c.date_debut_contrat IS NOT NULL GROUP BY af.libelle_poste ORDER BY anciennete_moyenne DESC LIMIT 1;"
+  },
+  {
+    "question": "Employés avec plus de 5 absences",
+    "sql": "SELECT e.nom, e.prenom, COUNT(*) as nb_absences FROM fait.fait_absence a LEFT JOIN dim.dim_employe e ON a.nudoss = e.nudoss GROUP BY e.nom, e.prenom, e.nudoss HAVING COUNT(*) > 5 ORDER BY nb_absences DESC;"
+  },
+  {
+    "question": "Top 5 des employés les plus absents",
+    "sql": "SELECT e.nom, e.prenom, COUNT(*) as nb_absences, SUM(a.duree_absence_jours) as total_jours FROM fait.fait_absence a LEFT JOIN dim.dim_employe e ON a.nudoss = e.nudoss GROUP BY e.nom, e.prenom, e.nudoss ORDER BY nb_absences DESC LIMIT 5;"
+  },
+  {
+    "question": "Embauches par jour de la semaine",
+    "sql": "SELECT cal.jour_semaine, COUNT(DISTINCT e.nudoss) as total FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss LEFT JOIN dim.dim_calendrier cal ON DATE(c.date_debut_contrat) = cal.date WHERE c.date_debut_contrat IS NOT NULL GROUP BY cal.jour_semaine ORDER BY total DESC;"
+  },
+  {
+    "question": "Combien d'hommes actifs ?",
+    "sql": "SELECT COUNT(DISTINCT e.nudoss) as total FROM dim.dim_employe e WHERE e.flag_employe_actif = 1 AND e.code_sexe = '1';"
+  },
+  {
+    "question": "Combien de femmes actives ?",
+    "sql": "SELECT COUNT(DISTINCT e.nudoss) as total FROM dim.dim_employe e WHERE e.flag_employe_actif = 1 AND e.code_sexe = '2';"
+  },
+  {
+    "question": "Salaire moyen des hommes",
+    "sql": "SELECT ROUND(CAST(AVG(c.salaire_mensuel) AS NUMERIC), 2) as salaire_moyen FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss WHERE e.flag_employe_actif = 1 AND e.code_sexe = '1' AND c.salaire_mensuel IS NOT NULL;"
+  },
+  {
+    "question": "Salaire moyen des femmes",
+    "sql": "SELECT ROUND(CAST(AVG(c.salaire_mensuel) AS NUMERIC), 2) as salaire_moyen FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss WHERE e.flag_employe_actif = 1 AND e.code_sexe = '2' AND c.salaire_mensuel IS NOT NULL;"
+  },
+  {
+    "question": "Employés en CDI depuis plus de 5 ans",
+    "sql": "SELECT e.nom, e.prenom, c.date_debut_contrat, EXTRACT(YEAR FROM AGE(CURRENT_DATE, c.date_debut_contrat))::integer as anciennete FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss WHERE e.flag_employe_actif = 1 AND UPPER(c.libelle_type_contrat) LIKE '%CDI%' AND EXTRACT(YEAR FROM AGE(CURRENT_DATE, c.date_debut_contrat)) >= 5 ORDER BY anciennete DESC LIMIT 100;"
+  },
+  {
+    "question": "Absences par année",
+    "sql": "SELECT a.annee_absence, COUNT(*) as nombre, SUM(a.duree_absence_jours) as total_jours FROM fait.fait_absence a GROUP BY a.annee_absence ORDER BY a.annee_absence;"
+  },
+  {
+    "question": "Employé le plus récemment embauché",
+    "sql": "SELECT e.nom, e.prenom, c.date_debut_contrat, af.libelle_poste FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss LEFT JOIN fait.fait_affectation af ON e.nudoss = af.nudoss AND af.flag_affectation_active = 1 WHERE e.flag_employe_actif = 1 AND c.date_debut_contrat IS NOT NULL ORDER BY c.date_debut_contrat DESC LIMIT 1;"
+  },
+  {
+    "question": "Tableau de bord RH complet",
+    "sql": "SELECT COUNT(DISTINCT e.nudoss) as total_employes, ROUND(CAST(AVG(c.salaire_mensuel) AS NUMERIC), 2) as salaire_moyen, ROUND(CAST(AVG(EXTRACT(YEAR FROM AGE(CURRENT_DATE, c.date_debut_contrat))) AS NUMERIC), 1) as anciennete_moyenne FROM dim.dim_employe e LEFT JOIN fait.fait_contrat c ON e.nudoss = c.nudoss WHERE e.flag_employe_actif = 1;"
+  }
+]

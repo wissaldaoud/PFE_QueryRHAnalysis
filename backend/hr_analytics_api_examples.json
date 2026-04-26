@@ -1,0 +1,299 @@
+{
+  "description": "Exemples de requêtes API pour tester le module HR Analytics",
+  "base_url": "http://localhost:8000/api/v1/hr-analytics",
+  
+  "examples": {
+    "1_cv_matching": {
+      "endpoint": "/cv-matching",
+      "method": "POST",
+      "description": "Comparer un CV avec une offre d'emploi",
+      "request": {
+        "cv": {
+          "skills": [
+            "Python",
+            "FastAPI",
+            "Machine Learning",
+            "SQL",
+            "Docker",
+            "Pandas",
+            "Scikit-learn",
+            "Git"
+          ],
+          "experiences": [
+            "Développeur Backend avec 3 ans d'expérience en Python et FastAPI",
+            "Création d'APIs RESTful et microservices pour applications ML",
+            "Développement de modèles de Machine Learning pour prédiction",
+            "Gestion de bases de données PostgreSQL et optimisation de requêtes"
+          ],
+          "job_titles": [
+            "Développeur Backend Python",
+            "Data Scientist Junior",
+            "Stagiaire Développement"
+          ],
+          "education": [
+            "Master en Informatique et Data Science",
+            "Licence en Mathématiques Appliquées"
+          ],
+          "years_of_experience": 3.5
+        },
+        "job_offer": {
+          "required_skills": [
+            "Python",
+            "FastAPI",
+            "PostgreSQL",
+            "Docker",
+            "Machine Learning"
+          ],
+          "preferred_skills": [
+            "Kubernetes",
+            "MLflow",
+            "React",
+            "CI/CD"
+          ],
+          "job_title": "Senior Backend Developer - ML Platform",
+          "description": "Développement d'une plateforme ML avec Python, FastAPI, et Docker. Responsabilité de créer des APIs pour modèles ML en production. Collaboration avec équipe Data Science.",
+          "required_experience_years": 3.0,
+          "required_education": [
+            "Master en Informatique ou équivalent"
+          ]
+        }
+      },
+      "curl_example": "curl -X POST http://localhost:8000/api/v1/hr-analytics/cv-matching -H 'Content-Type: application/json' -d @cv_matching_request.json"
+    },
+    
+    "2_training_recommendation": {
+      "endpoint": "/training-recommendation",
+      "method": "POST",
+      "description": "Recommander des formations pour un employé",
+      "request": {
+        "employee": {
+          "employee_id": "EMP001",
+          "current_skills": [
+            "Python",
+            "SQL",
+            "Excel",
+            "PowerPoint"
+          ],
+          "training_history": [
+            "Introduction à Python",
+            "SQL pour débutants"
+          ],
+          "current_position": "Analyste RH Junior",
+          "target_position": "Data Analyst RH",
+          "interests": [
+            "Data Science",
+            "Analytics",
+            "Visualisation de données"
+          ],
+          "department": "Ressources Humaines"
+        },
+        "available_courses": [
+          {
+            "course_id": "FORM001",
+            "title": "Python Avancé pour Data Science",
+            "description": "Formation avancée en Python couvrant Pandas, NumPy, et analyse de données avancée",
+            "skills_taught": [
+              "Pandas",
+              "NumPy",
+              "Data Analysis",
+              "Python Avancé"
+            ],
+            "level": "intermédiaire",
+            "duration_hours": 40,
+            "category": "Data Science",
+            "prerequisites": [
+              "Python de base"
+            ]
+          },
+          {
+            "course_id": "FORM002",
+            "title": "Introduction à Machine Learning",
+            "description": "Concepts ML, Scikit-learn, et applications RH",
+            "skills_taught": [
+              "Machine Learning",
+              "Scikit-learn",
+              "ML pour RH"
+            ],
+            "level": "intermédiaire",
+            "duration_hours": 35,
+            "category": "Machine Learning",
+            "prerequisites": [
+              "Python",
+              "Statistiques"
+            ]
+          },
+          {
+            "course_id": "FORM003",
+            "title": "Visualisation de données avec Tableau",
+            "description": "Créer des dashboards RH interactifs avec Tableau",
+            "skills_taught": [
+              "Tableau",
+              "Data Visualization",
+              "Dashboards"
+            ],
+            "level": "débutant",
+            "duration_hours": 20,
+            "category": "Visualisation"
+          },
+          {
+            "course_id": "FORM004",
+            "title": "Analytics RH Prédictif",
+            "description": "Prédiction du churn, analyse de performance avec données RH",
+            "skills_taught": [
+              "HR Analytics",
+              "Predictive Analytics",
+              "Python",
+              "Statistics"
+            ],
+            "level": "avancé",
+            "duration_hours": 50,
+            "category": "HR Analytics",
+            "prerequisites": [
+              "Python",
+              "Statistiques",
+              "ML de base"
+            ]
+          },
+          {
+            "course_id": "FORM005",
+            "title": "Power BI pour RH",
+            "description": "Création de reportings RH avec Power BI",
+            "skills_taught": [
+              "Power BI",
+              "DAX",
+              "Reporting RH"
+            ],
+            "level": "intermédiaire",
+            "duration_hours": 25,
+            "category": "Business Intelligence",
+            "prerequisites": [
+              "Excel avancé"
+            ]
+          }
+        ],
+        "required_skills_map": {
+          "Data Analyst RH": [
+            "Python",
+            "Pandas",
+            "SQL",
+            "Data Visualization",
+            "Statistics",
+            "Power BI ou Tableau"
+          ],
+          "HR Analytics Manager": [
+            "Python",
+            "Machine Learning",
+            "HR Analytics",
+            "Leadership",
+            "Predictive Analytics"
+          ]
+        },
+        "top_n": 5
+      },
+      "curl_example": "curl -X POST http://localhost:8000/api/v1/hr-analytics/training-recommendation -H 'Content-Type: application/json' -d @training_recommendation_request.json"
+    },
+    
+    "3_predictive_scoring": {
+      "endpoint": "/predictive-scoring",
+      "method": "POST",
+      "description": "Calculer les scores prédictifs d'un employé",
+      "request": {
+        "employee_id": "EMP101",
+        "tenure_months": 18,
+        "absences_last_year": 12,
+        "average_performance_score": 3.2,
+        "promotion_count": 0,
+        "training_hours_last_year": 5,
+        "salary_percentile": 25,
+        "department": "IT",
+        "manager_changes_count": 3,
+        "overtime_hours_monthly": 35,
+        "team_size": 8,
+        "remote_work_percentage": 20,
+        "last_salary_increase_months": 18,
+        "feedback_score": 3.0,
+        "engagement_survey_score": 3.5
+      },
+      "curl_example": "curl -X POST http://localhost:8000/api/v1/hr-analytics/predictive-scoring -H 'Content-Type: application/json' -d @predictive_scoring_request.json"
+    },
+    
+    "4_batch_scoring": {
+      "endpoint": "/predictive-scoring/batch",
+      "method": "POST",
+      "description": "Calculer les scores pour plusieurs employés",
+      "request": {
+        "histories": [
+          {
+            "employee_id": "EMP101",
+            "tenure_months": 18,
+            "absences_last_year": 12,
+            "average_performance_score": 3.2,
+            "promotion_count": 0,
+            "training_hours_last_year": 5,
+            "salary_percentile": 25,
+            "department": "IT",
+            "manager_changes_count": 3,
+            "overtime_hours_monthly": 35,
+            "team_size": 8,
+            "remote_work_percentage": 20
+          },
+          {
+            "employee_id": "EMP102",
+            "tenure_months": 48,
+            "absences_last_year": 3,
+            "average_performance_score": 4.7,
+            "promotion_count": 2,
+            "training_hours_last_year": 45,
+            "salary_percentile": 85,
+            "department": "Engineering",
+            "manager_changes_count": 1,
+            "overtime_hours_monthly": 10,
+            "team_size": 12,
+            "remote_work_percentage": 60,
+            "last_salary_increase_months": 8,
+            "feedback_score": 4.8,
+            "engagement_survey_score": 8.5
+          }
+        ]
+      },
+      "curl_example": "curl -X POST http://localhost:8000/api/v1/hr-analytics/predictive-scoring/batch -H 'Content-Type: application/json' -d @batch_scoring_request.json"
+    },
+    
+    "5_high_risk_employees": {
+      "endpoint": "/predictive-scoring/high-risk",
+      "method": "POST",
+      "description": "Identifier les employés à risque élevé",
+      "request": {
+        "histories": [
+          "... (même structure que batch_scoring)"
+        ],
+        "risk_threshold": 0.6
+      }
+    },
+    
+    "6_workforce_analytics": {
+      "endpoint": "/analytics/workforce",
+      "method": "POST",
+      "description": "Générer des analytics globales",
+      "request": {
+        "histories": [
+          "... (liste de tous les employés)"
+        ]
+      }
+    },
+    
+    "7_health_check": {
+      "endpoint": "/health",
+      "method": "GET",
+      "description": "Vérifier l'état de santé des services",
+      "curl_example": "curl http://localhost:8000/api/v1/hr-analytics/health"
+    }
+  },
+  
+  "testing_workflow": {
+    "step_1": "Démarrer le serveur: uvicorn app_hr_analytics_example:app --reload",
+    "step_2": "Ouvrir http://localhost:8000/docs pour la documentation interactive",
+    "step_3": "Tester les endpoints avec les exemples ci-dessus",
+    "step_4": "Consulter les logs pour le debugging"
+  }
+}
