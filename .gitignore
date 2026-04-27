@@ -81,3 +81,6 @@ mlartifacts/
 *.pkl
 *.bin
 *.npy
+# ML folders
+backend/models/
+backend/ml/models/
