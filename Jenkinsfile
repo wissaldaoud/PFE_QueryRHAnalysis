@@ -12,7 +12,7 @@ pipeline {
         stage('Build Backend') {
             steps {
                 dir('backend') {
-                    sh 'pip install -r requirements.txt || echo "pas de requirements.txt"'
+                    sh 'pip3 install -r requirements.txt'
                 }
             }
         }
@@ -20,15 +20,16 @@ pipeline {
         stage('Build Frontend') {
             steps {
                 dir('frontend') {
-                    sh 'npm install || echo "pas de package.json"'
+                    sh 'npm install'
                 }
             }
         }
 
         stage('Tests') {
             steps {
-                echo 'Tests en cours...'
-                sh 'echo "Tests passés ✅"'
+                dir('backend') {
+                    sh 'python3 -m pytest tests/ -v || echo "pas de tests"'
+                }
             }
         }
 
