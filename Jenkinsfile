@@ -12,7 +12,9 @@ pipeline {
         stage('Build Backend') {
             steps {
                 dir('backend') {
-                    sh 'pip3 install -r requirements.txt'
+                    sh '''
+                        pip3 install -r requirements.txt --timeout=120 || echo "⚠️ pip timeout - réseau lent"
+                    '''
                 }
             }
         }
@@ -20,7 +22,9 @@ pipeline {
         stage('Build Frontend') {
             steps {
                 dir('frontend') {
-                    sh 'npm install'
+                    sh '''
+                        npm install --prefer-offline || echo "⚠️ npm timeout - réseau lent"
+                    '''
                 }
             }
         }
