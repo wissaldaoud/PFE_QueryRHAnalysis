@@ -1,6 +1,12 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKER_USERNAME = "wissald"
+        IMAGE_BACKEND   = "wissald/pfe-backend"
+        IMAGE_FRONTEND  = "wissald/pfe-frontend"
+    }
+
     stages {
 
         stage('Checkout') {
@@ -9,31 +15,30 @@ pipeline {
             }
         }
 
-        stage('Build Backend') {
+        stage('Build Backend Image') {
             steps {
                 dir('backend') {
-                    sh '''
-                        pip3 install -r requirements.txt --timeout=120 || echo "⚠️ pip timeout - réseau lent"
-                    '''
+                    sh 'docker build -t $IMAGE_BACKEND:$BUILD_NUMBER -t $IMAGE_BACKEND:latest .'
                 }
             }
         }
 
-        stage('Build Frontend') {
+        stage('Build Frontend Image') {
             steps {
                 dir('frontend') {
-                    sh '''
-                        npm install --prefer-offline || echo "⚠️ npm timeout - réseau lent"
-                    '''
+                    sh 'docker build -t $IMAGE_FRONTEND:$BUILD_NUMBER -t $IMAGE_FRONTEND:latest .'
                 }
             }
         }
 
-        stage('Tests') {
+        stage('Push to Docker Hub') {
             steps {
-                dir('backend') {
-                    sh 'python3 -m pytest tests/ -v || echo "pas de tests"'
-                }
+                sh '''
+                    docker push $IMAGE_BACKEND:$BUILD_NUMBER
+                    docker push $IMAGE_BACKEND:latest
+                    docker push $IMAGE_FRONTEND:$BUILD_NUMBER
+                    docker push $IMAGE_FRONTEND:latest
+                '''
             }
         }
 
