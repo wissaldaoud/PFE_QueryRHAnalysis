@@ -32,7 +32,7 @@ pipeline {
                 withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
                     dir('backend') {
                         sh '''
-                            ~/sonar-scanner-6.2.1.4610-linux-x64/bin/sonar-scanner \
+                            /home/jenkins/sonar-scanner-6.2.1.4610-linux-x64/bin/sonar-scanner \
                               -Dsonar.projectKey=PFE_QueryRHAnalysis \
                               -Dsonar.sources=. \
                               -Dsonar.host.url=$SONAR_HOST \
