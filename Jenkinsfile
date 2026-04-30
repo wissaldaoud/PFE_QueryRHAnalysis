@@ -5,6 +5,7 @@ pipeline {
         DOCKER_USERNAME = "wissald"
         IMAGE_BACKEND   = "wissald/pfe-backend"
         IMAGE_FRONTEND  = "wissald/pfe-frontend"
+        SONAR_HOST      = "http://localhost:9000"
     }
 
     stages {
@@ -12,6 +13,35 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo 'Code récupéré depuis GitHub ✅'
+            }
+        }
+
+        stage('Tests Backend') {
+            steps {
+                dir('backend') {
+                    sh '''
+                        pip3 install pytest pytest-cov httpx --timeout=300 || true
+                        python3 -m pytest tests/ -v --cov=app --cov-report=xml || true
+                    '''
+                }
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
+                    dir('backend') {
+                        sh '''
+                            ~/sonar-scanner-6.2.1.4610-linux-x64/bin/sonar-scanner \
+                              -Dsonar.projectKey=PFE_QueryRHAnalysis \
+                              -Dsonar.sources=. \
+                              -Dsonar.host.url=$SONAR_HOST \
+                              -Dsonar.token=$SONAR_TOKEN \
+                              -Dsonar.language=py \
+                              -Dsonar.python.coverage.reportPaths=coverage.xml
+                        '''
+                    }
+                }
             }
         }
 
@@ -54,7 +84,7 @@ pipeline {
             }
         }
 
-        stage('Deploy') {
+        stage('Deploy to Kubernetes') {
             steps {
                 echo 'Déploiement sur Kubernetes ✅'
             }
