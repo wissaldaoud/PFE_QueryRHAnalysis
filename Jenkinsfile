@@ -75,12 +75,14 @@ pipeline {
 
         stage('Push to Docker Hub') {
             steps {
-                sh '''
-                    docker push $IMAGE_BACKEND:$BUILD_NUMBER
-                    docker push $IMAGE_BACKEND:latest
-                    docker push $IMAGE_FRONTEND:$BUILD_NUMBER
-                    docker push $IMAGE_FRONTEND:latest
-                '''
+                retry(3) {
+                    sh '''
+                        docker push $IMAGE_BACKEND:$BUILD_NUMBER
+                        docker push $IMAGE_BACKEND:latest
+                        docker push $IMAGE_FRONTEND:$BUILD_NUMBER
+                        docker push $IMAGE_FRONTEND:latest
+                    '''
+                }
             }
         }
 
