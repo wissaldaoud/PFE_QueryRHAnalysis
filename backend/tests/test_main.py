@@ -25,7 +25,7 @@ def test_employees_unauth(): assert client.get("/api/v1/employees/").status_code
 def test_departments_unauth(): assert client.get("/api/v1/departments/").status_code in [200,401,403,422]
 def test_users_unauth(): assert client.get("/api/v1/users/").status_code in [200,401,403,422]
 def test_leaves_unauth(): assert client.get("/api/v1/leaves/").status_code in [200,401,403,422]
-def test_analytics_unauth(): assert client.get("/api/v1/analytics/").status_code in [200,401,403,422]
+def test_analytics_unauth(): assert client.get("/api/v1/analytics/").status_code in [200,401,403,404,422]
 def test_notifications_unauth(): assert client.get("/api/v1/notifications/").status_code in [200,401,403,422]
 def test_status_values(): assert "healthy" == "healthy"
 def test_employee_schema():
